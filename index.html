@@ -14,11 +14,25 @@
 
 <body>
     <div id="cottonapp">
+      <nav class="labels">
+        <button class="active">Inbox</button>
+        <button>Drafts</button>
+        <button>Sent</button>
+        <button>Trash</button>
+      </nav>
+      <nav class="actions">
+        <button class="compose">Compose</button>
+        <input class="search" type="search" placeholder="search your mails">
+      </nav>
+       
     </div>
 
     <!-- Templates -->
     <script type="text/template" id="thread-template">
-      <%= subject %>
+      <h2><%= participants %></h2>
+      <h3><%= subject %></h3>
+      <p><%= snippet %></p>
+      <small><%= size %></small>
     </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
