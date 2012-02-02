@@ -223,10 +223,10 @@
       options || (options = {});
       if (!attrs) return this;
       if (attrs instanceof Backbone.Model) attrs = attrs.attributes;
-      if (options.unset) for (attr in attrs) attrs[attr] = void 0;
+      if (options.unset) for (var attr in attrs) attrs[attr] = void 0;
 
       // Run validation.
-      if (!this._validate(attrs, options)) return false;
+      if (this.validate && !this._performValidation(attrs, options)) return false;
 
       // Check for changes of `id`.
       if (this.idAttribute in attrs) this.id = attrs[this.idAttribute];
@@ -299,7 +299,7 @@
       }
 
       options = options ? _.clone(options) : {};
-      if (attrs && !this[options.wait ? '_validate' : 'set'](attrs, options)) return false;
+      if (attrs && !this[options.wait ? '_performValidation' : 'set'](attrs, options)) return false;
       var model = this;
       var success = options.success;
       options.success = function(resp, status, xhr) {
@@ -420,17 +420,18 @@
     // Run validation against a set of incoming attributes, returning `true`
     // if all is well. If a specific `error` callback has been passed,
     // call that instead of firing the general `"error"` event.
-    _validate: function(attrs, options) {
-      if (!_.isFunction(this.validate)) return true;
-      attrs = _.extend({}, this.attributes, attrs);
-      var error = this.validate(attrs, options);
-      if (!error) return true;
-      if (options && options.error) {
-        options.error(this, error, options);
-      } else {
-        this.trigger('error', this, error, options);
+    _performValidation: function(attrs, options) {
+      var newAttrs = _.extend({}, this.attributes, attrs);
+      var error = this.validate(newAttrs, options);
+      if (error) {
+        if (options.error) {
+          options.error(this, error, options);
+        } else {
+          this.trigger('error', this, error, options);
+        }
+        return false;
       }
-      return false;
+      return true;
     }
 
   });
@@ -649,7 +650,7 @@
         var attrs = model;
         options.collection = this;
         model = new this.model(attrs, options);
-        if (!model._validate(model.attributes, options)) model = false;
+        if (model.validate && !model._performValidation(model.attributes, options)) model = false;
       } else if (!model.collection) {
         model.collection = this;
       }
@@ -1030,7 +1031,6 @@
       this.$el = $(element);
       this.el = this.$el[0];
       if (delegate !== false) this.delegateEvents();
-      return this;
     },
 
     // Set callbacks, where `this.events` is a hash of
@@ -1187,7 +1187,7 @@
   // Wrap an optional error callback with a fallback error event.
   Backbone.wrapError = function(onError, originalModel, options) {
     return function(model, resp) {
-      resp = model === originalModel ? resp : model;
+      var resp = model === originalModel ? resp : model;
       if (onError) {
         onError(model, resp, options);
       } else {
