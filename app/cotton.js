@@ -1,11 +1,10 @@
 (function() {
-  var Thread = Backbone.Model.extend({
-  });
+  var Thread = Backbone.Model.extend({});
 
   var ThreadCollection = Backbone.Collection.extend({
     model: Thread,
 
-    parse: function(response){
+    parse: function(response) {
       return response.results;
     }
   })
@@ -17,10 +16,12 @@
     tagName: "div",
 
     // FIXME use hogan
-    template: _.template($('#thread-template').html()),
+    template: _.template($('#thread-template')
+      .html()),
 
     render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
+      $(this.el)
+        .html(this.template(this.model.toJSON()));
       return this;
     }
   });
@@ -35,8 +36,12 @@
     },
 
     addThread: function(thread) {
-      var view = new ThreadView({model: thread});
-      $("#cottonapp").append(view.render().el);
+      var view = new ThreadView({
+        model: thread
+      });
+      $("#cottonapp")
+        .append(view.render()
+          .el);
     },
 
     addAllThreads: function() {
@@ -47,9 +52,3 @@
 
   window.App = new AppView;
 })();
-
-
-
-
-
-

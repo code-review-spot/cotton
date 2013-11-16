@@ -1,5 +1,6 @@
 <!doctype html>
-<html class="no-js" lang="en"> 
+<html class="no-js" lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,35 +14,37 @@
 </head>
 
 <body>
-    <div id="cottonapp">
-      <nav class="labels">
-        <button class="active">Inbox</button>
-        <button>Drafts</button>
-        <button>Sent</button>
-        <button>Trash</button>
-      </nav>
-      <nav class="actions">
-        <button class="compose">Compose</button>
-        <input class="search" type="search" placeholder="search your mails">
-      </nav>
-       
-    </div>
+  <div id="cottonapp">
+    <nav class="labels">
+      <button class="active">Inbox</button>
+      <button>Drafts</button>
+      <button>Sent</button>
+      <button>Trash</button>
+    </nav>
+    <nav class="actions">
+      <button class="compose">Compose</button>
+      <input class="search" type="search" placeholder="search your mails">
+    </nav>
 
-    <!-- Templates -->
-    <script type="text/template" id="thread-template">
-      <h2><%= participants %></h2>
-      <h3><%= subject %></h3>
-      <p><%= snippet %></p>
-      <small><%= size %></small>
-    </script>
+  </div>
+
+  <!-- Templates -->
+  <script type="text/template" id="thread-template">
+    < h2 > <%= participants %> < /h2>
+      <h3><%= subject %></h3 > < p > <%= snippet %> < /p>
+      <small><%= size %></small >
+  </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="assets/js/libs/jquery.js"><\/script>')</script>
+  <script>
+    window.jQuery || document.write('<script src="assets/js/libs/jquery.js"><\/script>')
+  </script>
 
   <script src="assets/js/libs/underscore.js"></script>
   <script src="assets/js/libs/backbone.js"></script>
 
- <!-- Application -->
- <script src="/app/cotton.js"></script>
+  <!-- Application -->
+  <script src="/app/cotton.js"></script>
 </body>
+
 </html>
